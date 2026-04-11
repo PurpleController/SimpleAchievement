@@ -7,3 +7,10 @@
 4. You do not add the IDs like via a python script or weird ways you just add them in a JSON (Do not worry there are template achievements for you already)
 5. The commands are easy to understand
 6. The plugin has already a built in menu that shows you achievements
+# Installation
+**Via Git (recommended)**
+1. Open the terminal in your addons folder in your project. (If you do not have one create one)
+2. Then run this command: 
+```
+git clone https://github.com/AramCZGames/SimpleAchievement
+```
