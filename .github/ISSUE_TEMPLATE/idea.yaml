@@ -1,5 +1,5 @@
 name: Idea
-description: Request an idea in Hell Jump
+description: Request an idea in SimpleAchievement
 labels: ["idea"]
 body:
   - type: textarea

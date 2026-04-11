@@ -1,5 +1,5 @@
 name: Bug Report
-description: Report a bug in Hell Jump
+description: Report a bug in SimpleAchievement
 labels: ["bug"]
 body:
   - type: checkboxes

@@ -1,5 +1,5 @@
 name: Install Report
-description: Report an install issue in Hell Jump
+description: Report an install issue in SimpleAchievement
 labels: ["install issue"]
 body:
 
