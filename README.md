@@ -33,5 +33,7 @@ All PRs are welcome ;)
 
 # Additional Info
 • The plugin is not complete yet you can view the [TODO List](https://github.com/AramCZGames/SimpleAchievement/issues/1)
+
 • This plugin was as an easier alternative to other achievement plugins
+
 • This plugin will always prioritize stability over features so a feature can take longer rather than a bugfix
