@@ -14,9 +14,12 @@
 ```
 git clone https://github.com/AramCZGames/SimpleAchievement
 ```
+3. Then just open your project in Godot, go to project seetings, plugins and enable SimpleAchievement
+
 **Manually:**
 1. Download the source code of this project
 2. Go to your addons folder and paste this plugin into it (If you do not have a addons folder create one)
+3. Then just open your project in Godot, go to project seetings, plugins and enable SimpleAchievement
 
 **From Godot Asset Library:**
 
