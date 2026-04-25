@@ -17,22 +17,13 @@ git clone https://github.com/AramCZGames/SimpleAchievement
 3. Then just open your project in Godot, go to project seetings, plugins and enable SimpleAchievement
 
 **Manually:**
-1. Download the source code of this project
+1. Download the [source code](https://github.com/AramCZGames/SimpleAchievement/archive/refs/heads/main.zip) of this project
 2. Go to your addons folder and paste this plugin into it (If you do not have a addons folder create one)
 3. Then just open your project in Godot, go to project seetings, plugins and enable SimpleAchievement
 
 **From Godot Asset Library:**
 
 Coming soon
-
-# Pull Requests
-**How to do a pull request**
-1. Fork this repository
-2. Change whatever you want
-3. Make the PR directly to the main branch
-4. Wait for a review
-
-All PRs are welcome ;)
 
 # Additional Info
 • The plugin is not complete yet you can view the [TODO List](https://github.com/AramCZGames/SimpleAchievement/issues/1)
