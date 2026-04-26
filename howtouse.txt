@@ -1,5 +1,6 @@
 SimpleAchievement Plugin - How To Use
 
+From the devs of Hell Jump
 Made by AramCZGames | Godot 4.6+
 
 INSTALLATION
@@ -66,6 +67,7 @@ This is completely separate from your game's save data.
 
 NOTES
 
+- This plugin is work in progress and will have bugs!
 - Achievement IDs are case sensitive
 - Calling unlockachievement() on an already unlocked achievement does nothing
 - The popup slides in from the bottom left corner

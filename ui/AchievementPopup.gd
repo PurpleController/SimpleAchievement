@@ -1,58 +1,91 @@
 extends Control
 
-const SLIDE_DURATION := 0.35
-const DISPLAY_DURATION := 3.0
-const POPUP_W := 300
-const POPUP_H := 72
-const MARGIN := 14
-
-var _callback: Callable
-var _tween: Tween
-
-@onready var _panel: PanelContainer = $PanelContainer
-@onready var _icon: TextureRect = $PanelContainer/MarginContainer/HBox/Icon
-@onready var _header: Label = $PanelContainer/MarginContainer/HBox/VBox/Header
-@onready var _title: Label = $PanelContainer/MarginContainer/HBox/VBox/Title
-@onready var _desc: Label = $PanelContainer/MarginContainer/HBox/VBox/Desc
+@onready var list: VBoxContainer = $VBoxContainer/ScrollContainer/List
 
 func _ready() -> void:
-	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	mouse_filter = Control.MOUSE_FILTER_IGNORE
-	hide()
+	_populate()
 
-func show_achievement(data: Dictionary, callback: Callable) -> void:
-	_callback = callback
-	_header.text = "Achievement Unlocked!"
-	_title.text = data.get("name", "Unknown")
-	_desc.text = data.get("description", "")
+	func _populate() -> void:
+		for child in list.get_children():
+			child.queue_free()
 
-	var icon_path: String = data.get("icon", "")
-	if icon_path != "" and ResourceLoader.exists(icon_path):
-		_icon.texture = load(icon_path)
-		_icon.show()
-	else:
-		_icon.hide()
+			var all: Dictionary = AchievementManager.getall()
+			var save: Dictionary = AchievementManager.getsavedata()
 
-	var vp_size := get_viewport_rect().size
-	var off_x := -POPUP_W - MARGIN
-	var on_x := float(MARGIN)
-	var pos_y := vp_size.y - POPUP_H - MARGIN
+			for id in all:
+				var data: Dictionary = all[id]
+				var entry := _make_entry(id, data, save)
+				list.add_child(entry)
 
-	_panel.size = Vector2(POPUP_W, POPUP_H)
-	_panel.position = Vector2(off_x, pos_y)
-	show()
+				func _make_entry(id: String, data: Dictionary, save: Dictionary) -> PanelContainer:
+					var unlocked: bool = save.get(id, {}).get("unlocked", false)
+					var progress: int = save.get(id, {}).get("progress", 0)
+					var goal: int = data.get("goal", 1)
 
-	if _tween:
-		_tween.kill()
-	_tween = create_tween()
-	_tween.tween_property(_panel, "position:x", on_x, SLIDE_DURATION)\
-		.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-	_tween.tween_interval(DISPLAY_DURATION)
-	_tween.tween_property(_panel, "position:x", float(off_x), SLIDE_DURATION)\
-		.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
-	_tween.tween_callback(_finish)
+					var panel := PanelContainer.new()
+					panel.custom_minimum_size = Vector2(0, 64)
 
-func _finish() -> void:
-	hide()
-	if _callback.is_valid():
-		_callback.call()
+					var hbox := HBoxContainer.new()
+					hbox.add_theme_constant_override("separation", 12)
+					panel.add_child(hbox)
+
+					# Icon
+					var icon := TextureRect.new()
+					icon.custom_minimum_size = Vector2(48, 48)
+					icon.expand_mode = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
+					icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+					var icon_path: String = data.get("icon", "")
+					if icon_path != "" and ResourceLoader.exists(icon_path):
+						icon.texture = load(icon_path)
+						if not unlocked:
+						icon.modulate = Color(0.3, 0.3, 0.3, 1.0)
+						hbox.add_child(icon)
+
+						# Text
+						var vbox := VBoxContainer.new()
+						vbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+						hbox.add_child(vbox)
+
+						var name_label := Label.new()
+						name_label.text = data.get("name", id)
+						name_label.add_theme_font_override("font", load("res://Symtext.ttf"))
+						name_label.add_theme_font_size_override("font_size", 13)
+						if not unlocked:
+						name_label.modulate = Color(0.6, 0.6, 0.6, 1.0)
+						vbox.add_child(name_label)
+
+						var desc_label := Label.new()
+						desc_label.text = data.get("description", "")
+						name_label.add_theme_font_override("font", load("res://Symtext.ttf"))
+						desc_label.add_theme_font_size_override("font_size", 10)
+						desc_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+						desc_label.modulate = Color(0.75, 0.75, 0.75, 1.0)
+						vbox.add_child(desc_label)
+
+						# Progress bar for tracked achievements
+						if goal > 1:
+						var bar := ProgressBar.new()
+						bar.min_value = 0
+						bar.max_value = goal
+						bar.value = progress
+						bar.custom_minimum_size = Vector2(0, 14)
+						vbox.add_child(bar)
+						var bar_label := Label.new()
+						bar_label.text = "%d / %d" % [progress, goal]
+						bar_label.add_theme_font_size_override("font_size", 9)
+						vbox.add_child(bar_label)
+
+						# Status
+						var status := Label.new()
+						name_label.add_theme_font_override("font", load("res://Symtext.ttf"))
+						status.text = "✔ Unlocked" if unlocked else "Locked"
+						status.add_theme_font_size_override("font_size", 10)
+						status.modulate = Color(0.2, 1.0, 0.2, 1.0) if unlocked else Color(0.6, 0.6, 0.6, 1.0)
+						status.size_flags_horizontal = Control.SIZE_SHRINK_END
+						hbox.add_child(status)
+
+						return panel
+
+
+						func _on_back_button_pressed() -> void:
+							get_tree().change_scene_to_file("res://Scenes/MainMenu.tscn")
