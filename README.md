@@ -26,7 +26,7 @@ git clone https://github.com/AramCZGames/SimpleAchievement
 Coming soon
 
 # Additional Info
-• The plugin is not complete yet you can view the [TODO List](https://github.com/AramCZGames/SimpleAchievement/issues/1)
+• The plugin has some missing features view the [TODO List](https://github.com/AramCZGames/SimpleAchievement/issues/1) here
 
 • This plugin is an easier alternative to other achievement plugins
 
