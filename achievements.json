@@ -1,6 +1,6 @@
 [
 	{
-		"id": "achievment",
+		"id": "achievement",
 		"name": "Achievement",
 		"description": "An achievement.",
 		"icon": "res://addons/SimpleAchievement/icons/SimpleAchievment.png",
