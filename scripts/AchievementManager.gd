@@ -13,9 +13,7 @@ var _popup: CanvasLayer
 
 
 func _ready() -> void:
-
 	process_mode = Node.PROCESS_MODE_ALWAYS
-
 	_load_achievements()
 	_load_data()
 	_create_popup()
@@ -28,8 +26,8 @@ func register(
 	icon := "",
 	required: int = 1
 ):
-
 	achievements[id] = {
+		"id": id,
 		"name": name,
 		"description": description,
 		"icon": icon,
@@ -43,12 +41,7 @@ func unlock(id: String):
 		return
 
 	if not achievements.has(id):
-
-		push_warning(
-			"Achievement '%s' not registered"
-			% id
-		)
-
+		push_warning("Achievement '%s' not registered" % id)
 		return
 
 	unlocked[id] = true
@@ -62,7 +55,6 @@ func unlock(id: String):
 
 
 func unlockachievement(id: String):
-
 	unlock(id)
 
 
@@ -75,12 +67,7 @@ func progressachievement(
 		return
 
 	if not achievements.has(id):
-
-		push_warning(
-			"Achievement '%s' not registered"
-			% id
-		)
-
+		push_warning("Achievement '%s' not registered" % id)
 		return
 
 	var required: int = int(
@@ -126,6 +113,43 @@ func is_unlocked(
 	return unlocked.has(id)
 
 
+func getall() -> Dictionary:
+
+	var result: Dictionary = {}
+
+	for id in achievements:
+
+		result[id] = achievements[id].duplicate()
+
+		result[id]["goal"] = int(
+			achievements[id].get(
+				"required",
+				1
+			)
+		)
+
+	return result
+
+
+func getsavedata() -> Dictionary:
+
+	var result: Dictionary = {}
+
+	for id in achievements:
+
+		result[id] = {
+			"unlocked": unlocked.has(id),
+			"progress": int(
+				progress.get(
+					id,
+					0
+				)
+			)
+		}
+
+	return result
+
+
 func reset():
 
 	unlocked.clear()
@@ -137,18 +161,14 @@ func reset():
 func _show_next():
 
 	if _queue.is_empty():
-
 		_showing = false
-
 		return
 
 	_showing = true
 
 	var id: String = _queue.pop_front()
 
-	if not is_instance_valid(
-		_popup
-	):
+	if not is_instance_valid(_popup):
 		_create_popup()
 
 	_popup.show_achievement(
@@ -167,12 +187,10 @@ func _popup_finished():
 
 func _create_popup():
 
-	if is_instance_valid(
-		_popup
-	):
+	if is_instance_valid(_popup):
 		return
 
-	var popup_scene := preload(
+	var popup_scene = preload(
 		"res://addons/SimpleAchievement/ui/AchievementPopup.tscn"
 	)
 
@@ -192,12 +210,9 @@ func _load_achievements():
 	if not FileAccess.file_exists(
 		ACHIEVEMENTS_PATH
 	):
-		push_warning(
-			"Achievements JSON missing"
-		)
 		return
 
-	var file := FileAccess.open(
+	var file = FileAccess.open(
 		ACHIEVEMENTS_PATH,
 		FileAccess.READ
 	)
@@ -211,16 +226,7 @@ func _load_achievements():
 
 	var json := JSON.new()
 
-	var error: int = json.parse(
-		text
-	)
-
-	if error != OK:
-
-		push_warning(
-			"JSON parse failed"
-		)
-
+	if json.parse(text) != OK:
 		return
 
 	var data = json.data
@@ -230,6 +236,7 @@ func _load_achievements():
 		for achievement in data:
 
 			register(
+
 				str(
 					achievement.get(
 						"id",
@@ -264,12 +271,13 @@ func _load_achievements():
 						1
 					)
 				)
+
 			)
 
 
 func _save_data():
 
-	var file := FileAccess.open(
+	var file = FileAccess.open(
 		SAVE_PATH,
 		FileAccess.WRITE
 	)
@@ -294,7 +302,7 @@ func _load_data():
 	):
 		return
 
-	var file := FileAccess.open(
+	var file = FileAccess.open(
 		SAVE_PATH,
 		FileAccess.READ
 	)
