@@ -21,6 +21,11 @@ git clone https://github.com/AramCZGames/SimpleAchievement
 2. Go to your addons folder and paste this plugin into it (If you do not have a addons folder create one)
 3. Then just open your project in Godot, go to project seetings, plugins and enable SimpleAchievement
 
+**Older Versions:**
+1. Go to the [releases tab](https://github.com/AramCZGames/SimpleAchievement/releases)
+2. Choose the version you want
+3. Then download the source code of that version if it's .zip or .tar.gz it does not matter
+
 **From Godot Asset Library:**
 
 Coming soon
