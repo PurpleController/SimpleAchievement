@@ -62,7 +62,7 @@ Example:
 
 SAVE FILE
 
-Achievements save automatically to: user://achievements.cfg
+Achievements save automatically to: user://achievements.save
 This is completely separate from your game's save data.
 
 NOTES
