@@ -17,9 +17,3 @@
 **From Godot Asset Library:**
 
 Coming soon
-
-# Additional Info
-
-• This plugin is an easier alternative to other achievement plugins
-
-• This plugin will always prioritize stability over features so a feature can take longer rather than a bugfix
